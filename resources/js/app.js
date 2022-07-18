@@ -1,9 +1,9 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
-import {InertiaProgress} from "@inertiajs/progress";
+import { InertiaProgress } from "@inertiajs/progress";
 
 createInertiaApp({
-    resolve: name => require(`./Pages/${name}`),
+    resolve: (name) => require(`./Pages/${name}`),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             // set mixins
@@ -20,11 +20,11 @@ createInertiaApp({
                         });
 
                         return hasPermission;
-                    }
+                    },
                 },
             })
             .use(plugin)
-            .mount(el)
+            .mount(el);
     },
 });
 
