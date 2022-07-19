@@ -61,7 +61,7 @@ class DashboardController extends Controller
             ->addSelect(DB::raw('products.title as title'))
             ->join('products', 'products.id', '=', 'transaction_details.product_id')
             ->groupBy('transaction_details.product_id')
-            ->orderBy('total', 'DESC')
+            ->orderBy('price', 'DESC')
             ->limit(5)
             ->get();
 
@@ -78,9 +78,9 @@ class DashboardController extends Controller
         return Inertia::render('Apps/Dashboard/Index', [
             'sales_date'            => $sales_date,
             'grand_total'           => $grand_total,
-            'count_sales_today'     => $count_sales_today,
-            'sum_sales_today'       => $sum_sales_today,
-            'sum_profits_today'     => $sum_profits_today,
+            'count_sales_today'     => (int) $count_sales_today,
+            'sum_sales_today'       => (int) $sum_sales_today,
+            'sum_profits_today'     => (int) $sum_profits_today,
             'products_limit_stock'  => $products_limit_stock,
             'product'               => $product,
             'total'                 => $total

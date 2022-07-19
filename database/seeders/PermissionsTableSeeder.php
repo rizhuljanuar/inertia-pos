@@ -17,7 +17,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'dashboard.sales_chart', 'guard_name' => 'web']);
         Permission::create(['name' => 'dashboard.sales_today', 'guard_name' => 'web']);
         Permission::create(['name' => 'dashboard.profits_today', 'guard_name' => 'web']);
-        Permission::create(['name' => 'dashboard.best_selling_today', 'guard_name' => 'web']);
+        Permission::create(['name' => 'dashboard.best_selling_product', 'guard_name' => 'web']);
         Permission::create(['name' => 'dashboard.product_stock', 'guard_name' => 'web']);
 
         // permission users
