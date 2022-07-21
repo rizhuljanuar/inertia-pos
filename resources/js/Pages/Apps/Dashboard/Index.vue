@@ -65,7 +65,9 @@
                   ><i class="fa fa-chart-pie"></i> BEST SELIING PRODUCT</span
                 >
               </div>
-              <div class="card-body"></div>
+              <div class="card-body">
+                <DoughnutChart :charData="chartBestProduct" />
+              </div>
             </div>
           </div>
           <div class="col-md-6">
@@ -78,7 +80,38 @@
                   ><i class="fa fa-box-open"></i> PRODUCT STOCK</span
                 >
               </div>
-              <div class="card-body"></div>
+              <div class="card-body">
+                <div v-if="products_limit_stock.length > 0">
+                  <ol class="list-group list-groupnumbered">
+                    <li
+                      v-for="product in products_limit_stock"
+                      :key="product.id"
+                      class="
+                        list-group-item
+                        d-flex
+                        justify-content-between
+                        align-items-start
+                      "
+                    >
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ product.title }}</div>
+                        <div class="textmuted">
+                          Category : {{ product.category.name }}
+                        </div>
+                      </div>
+                      <span class="badge bg-danger rounded-pill">{{
+                        product.stock
+                      }}</span>
+                    </li>
+                  </ol>
+                </div>
+                <div
+                  v-else
+                  class="alert alert-danger border-0 shadow rounded-3"
+                >
+                  Data Tidak Tersedia!.
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,7 +127,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 // import ref from vue
 import { ref } from "vue";
 // chart
-import { BarChart } from "vue-chart-3";
+import { BarChart, DoughnutChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
 // register chart
 Chart.register(...registerables);
@@ -106,6 +139,7 @@ export default {
   components: {
     Head,
     BarChart,
+    DoughnutChart,
   },
 
   props: {
@@ -118,6 +152,11 @@ export default {
     // chart sales
     sales_date: Array,
     grand_total: Array,
+    // produk terlaris
+    product: Array,
+    total: Array,
+    // product limit stock
+    products_limit_stock: Array,
   },
   setup(props) {
     // method random color
@@ -164,9 +203,21 @@ export default {
       ],
     };
 
+    // chart produk terlaris
+    const chartBestProduct = {
+      labels: props.product,
+      datasets: [
+        {
+          data: props.total,
+          backgroundColor: randomBackgroundColor(5),
+        },
+      ],
+    };
+
     return {
       options,
       chartSellWeek,
+      chartBestProduct,
     };
   },
 };
