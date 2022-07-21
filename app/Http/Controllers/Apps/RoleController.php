@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -14,7 +16,15 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        // get roles
+        $roles = Role::when(request()->q, function ($roles) {
+            $roles = $roles->where('name', 'like', '%' . request()->q . '%');
+        })->with('permissions')->latest()->paginate(5);
+
+        // render with inertia
+        return inertia('Apps/Roles/Index', [
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -24,7 +34,13 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        // get permission all
+        $permissions = Permission::all();
+
+        // render with inertia
+        return inertia('Apps/Roles/Create', [
+            'permissions' => $permissions
+        ]);
     }
 
     /**
@@ -35,18 +51,19 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'name'          => 'required|string',
+            'permissions'   => 'required|string'
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        // create role
+        $role = Role::create(['name' => $request->name]);
+
+        // assign permissions to role
+        $role->givePermissionTo($request->permissions);
+
+        // redirect
+        return redirect()->route('apps.roles.index');
     }
 
     /**
@@ -57,7 +74,17 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        // get role
+        $role = Role::with('permissions')->findOrFail($id);
+
+        // get permission all
+        $permissions = Permission::all();
+
+        // render with inertia
+        return inertia('Apps/Roles/Edit', [
+            'role'        => $role,
+            'permissions' => $permissions
+        ]);
     }
 
     /**
@@ -67,9 +94,21 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $this->validate($request, [
+            'name'          => 'required|string',
+            'permissions'   => 'required|string'
+        ]);
+
+        // update role
+        $role->update(['name' => $request->name]);
+
+        // sync permissions
+        $role->syncPermissions($request->permissions);
+
+        // redirect
+        return redirect()->route('apps.roles.index');
     }
 
     /**
@@ -80,6 +119,13 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // find role by ID
+        $role = Role::findOrFail($id);
+
+        // delete
+        $role->delete();
+
+        // redirect
+        return redirect()->route('apps.roles.index');
     }
 }
