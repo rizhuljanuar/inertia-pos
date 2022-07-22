@@ -53,7 +53,7 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name'          => 'required|string',
-            'permissions'   => 'required|string'
+            'permissions'   => 'required|array'
         ]);
 
         // create role
@@ -98,7 +98,7 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name'          => 'required|string',
-            'permissions'   => 'required|string'
+            'permissions'   => 'required|array'
         ]);
 
         // update role
