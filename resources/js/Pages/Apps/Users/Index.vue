@@ -85,6 +85,7 @@
     </div>
   </main>
 </template>
+
 <script>
 import layoutApp from "../../../Layouts/App.vue";
 import Pagination from "../../../Components/Pagination.vue";
