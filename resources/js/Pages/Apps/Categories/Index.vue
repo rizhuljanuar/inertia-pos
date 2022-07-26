@@ -14,7 +14,7 @@
                 >
               </div>
               <div class="card-body">
-                <form action="">
+                <form @submit.prevent="handleSearch">
                   <div class="input-group mb-3">
                     <Link
                       href="/apps/categories/create"
@@ -25,6 +25,7 @@
                     <input
                       type="text"
                       class="form-control"
+                      v-model="search"
                       placeholder="seach by category name..."
                     />
                     <button
@@ -54,12 +55,13 @@
                       </td>
                       <td class="text-center">
                         <Link
-                          href="#"
+                          :href="`/apps/categories/${category.id}/edit`"
                           v-if="hasAnyPermission(['categories.edit'])"
                           class="btn btn-success btn-sm me-2"
                           ><i class="fa fa-pencil-alt me-1"></i> EDIT</Link
                         >
                         <button
+                          @click.prevent="destroy(category.id)"
                           v-if="hasAnyPermission(['categories.delete'])"
                           class="btn btn-danger btn-sm"
                         >
@@ -83,6 +85,9 @@
 import LayoutApp from "../../../Layouts/App.vue";
 import Pagination from "../../../Components/Pagination.vue";
 import { Link, Head } from "@inertiajs/inertia-vue3";
+import { ref } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import Swal from "sweetalert2";
 
 export default {
   layout: LayoutApp,
@@ -95,6 +100,46 @@ export default {
 
   props: {
     categories: Object,
+  },
+
+  setup() {
+    const search = ref("" || new URL(document.location).searchParams.get("q"));
+
+    const handleSearch = () => {
+      Inertia.get("/apps/categories", {
+        q: search.value,
+      });
+    };
+
+    const destroy = (id) => {
+      Swal.fire({
+        title: "Are you sure",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Inertia.delete(`/apps/categories/${id}`);
+
+          Swal.fire({
+            title: "Success!",
+            text: "Deleted saved successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      });
+    };
+
+    return {
+      search,
+      handleSearch,
+      destroy,
+    };
   },
 };
 </script>

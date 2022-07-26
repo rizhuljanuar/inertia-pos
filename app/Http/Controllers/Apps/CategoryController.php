@@ -52,10 +52,10 @@ class CategoryController extends Controller
 
         // upload image
         $image = $request->file('image');
-        $image->storeAs('public/categories', $image->hashName());
+        $image->storeAs('public/categories/', $image->hashName());
 
         // create category
-        Category::created([
+        Category::create([
             'image'         => $image->hashName(),
             'name'          => $request->name,
             'description'   => $request->description
@@ -127,7 +127,7 @@ class CategoryController extends Controller
     {
         // find by ID
         $category = Category::findOrFail($id);
-
+        // dd($category);
         // remove image
         Storage::disk('local')->delete('public/categories/' . basename($category->image));
 
