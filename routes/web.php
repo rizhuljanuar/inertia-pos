@@ -33,5 +33,7 @@ Route::prefix('apps')->group(function () {
         Route::resource('/categories', App\Http\Controllers\Apps\CategoryController::class, ['as' => 'apps'])->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
         // route resource products
         Route::resource('/products', App\Http\Controllers\Apps\ProductController::class, ['as' => 'apps'])->middleware('permission:products.index|products.create|products.edit|products.delete');
+        // route resource customers
+        Route::resource('/customers', App\Http\Controllers\Apps\CustomerController::class, ['as' => 'apps'])->middleware('permission:customers.index|customers.create|customers.edit|customers.delete');
     });
 });
