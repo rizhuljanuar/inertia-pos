@@ -22737,12 +22737,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.esm.js");
 /* harmony import */ var vue_multiselect_dist_vue_multiselect_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.css */ "./node_modules/vue-multiselect/dist/vue-multiselect.css");
-/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
 
  //import VueMultiselect
+
 
 
 
@@ -22764,9 +22767,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup(props) {
     // define state
-    var barcode = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)("");
-    var product = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)({});
-    var qty = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(1); //method "searchProduct"
+    var barcode = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)("");
+    var product = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)({});
+    var qty = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(1); //method "searchProduct"
 
     var searchProduct = function searchProduct() {
       // fetch with axios
@@ -22792,7 +22795,7 @@ __webpack_require__.r(__webpack_exports__);
       barcode.value = "";
     };
 
-    var grandTotal = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(props.carts_total);
+    var grandTotal = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(props.carts_total);
 
     var addToCart = function addToCart() {
       //send data to server
@@ -22825,9 +22828,9 @@ __webpack_require__.r(__webpack_exports__);
     }; // define state "cash", "change", and "discount"
 
 
-    var cash = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(0);
-    var change = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(0);
-    var discount = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(0); // method "setDiscount"
+    var cash = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(0);
+    var change = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(0);
+    var discount = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(0); // method "setDiscount"
 
     var setDiscount = function setDiscount() {
       // set grandTotal
@@ -22845,7 +22848,7 @@ __webpack_require__.r(__webpack_exports__);
     }; // define state "customer_id"
 
 
-    var customer_id = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(""); // method "storeTransaction"
+    var customer_id = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(""); // method "storeTransaction"
 
     var storeTransaction = function storeTransaction() {
       //HTTP request
@@ -22853,6 +22856,7 @@ __webpack_require__.r(__webpack_exports__);
         // send data to server
         customer_id: customer_id.value ? customer_id.value.id : "",
         discount: discount.value,
+        grand_total: grandTotal.value,
         cash: cash.value,
         change: change.value
       }).then(function (response) {
@@ -22867,7 +22871,22 @@ __webpack_require__.r(__webpack_exports__);
 
         change.value = 0; // set customer_id to ""
 
-        customer_id.value = "";
+        customer_id.value = ""; // show success alert
+
+        sweetalert2__WEBPACK_IMPORTED_MODULE_6___default().fire({
+          title: "Success!",
+          text: "Transactions saved successfully!.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+        }).then(function () {
+          setTimeout(function () {
+            // print
+            window.open("/apps/transactions/print?invoice=".concat(response.data.data.invoice), "_blank"); // reload page
+
+            location.reload();
+          }, 50);
+        });
       });
     };
 
@@ -22884,7 +22903,9 @@ __webpack_require__.r(__webpack_exports__);
       change: change,
       discount: discount,
       setDiscount: setDiscount,
-      setChange: setChange
+      setChange: setChange,
+      customer_id: customer_id,
+      storeTransaction: storeTransaction
     };
   }
 });
@@ -27084,9 +27105,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , _hoisted_37)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
-    modelValue: _ctx.customer_id,
+    modelValue: $setup.customer_id,
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.customer_id = $event;
+      return $setup.customer_id = $event;
     }),
     label: "name",
     "track-by": "name",
@@ -27140,7 +27161,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.cash]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [_hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return _ctx.storeTransaction && _ctx.storeTransaction.apply(_ctx, arguments);
+      return $setup.storeTransaction && $setup.storeTransaction.apply($setup, arguments);
     }, ["prevent"])),
     "class": "btn btn-purple btn-md border-0 shadow text-uppercase",
     disabled: $setup.cash < $setup.grandTotal || $setup.grandTotal == 0

@@ -213,6 +213,7 @@ import "vue-multiselect/dist/vue-multiselect.css";
 import { ref } from "@vue/reactivity";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import Swal from "sweetalert2";
 export default {
   layout: LayoutApp,
 
@@ -336,6 +337,7 @@ export default {
           // send data to server
           customer_id: customer_id.value ? customer_id.value.id : "",
           discount: discount.value,
+          grand_total: grandTotal.value,
           cash: cash.value,
           change: change.value,
         })
@@ -352,6 +354,26 @@ export default {
           change.value = 0;
           // set customer_id to ""
           customer_id.value = "";
+
+          // show success alert
+          Swal.fire({
+            title: "Success!",
+            text: "Transactions saved successfully!.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            setTimeout(() => {
+              // print
+              window.open(
+                `/apps/transactions/print?invoice=${response.data.data.invoice}`,
+                "_blank"
+              );
+
+              // reload page
+              location.reload();
+            }, 50);
+          });
         });
     };
 
@@ -369,6 +391,8 @@ export default {
       discount,
       setDiscount,
       setChange,
+      customer_id,
+      storeTransaction,
     };
   },
 };
