@@ -101,7 +101,7 @@
                 Alamat: Jl lembang 2 lama kel: sudimara barat, kec: ciledug
             </div>
             <div style="text-align: center">
-            Telp: 0857-9087-9087
+                Telp: 0857-9087-9087
             </div>
         </div>
         <div class="separate-line" style="border-top: 1px dashed #000;height: 1px;margin-bottom: 5px"></div>

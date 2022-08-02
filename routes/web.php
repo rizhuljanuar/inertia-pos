@@ -48,5 +48,14 @@ Route::prefix('apps')->group(function () {
         Route::post('/transactions/store', [\App\Http\Controllers\Apps\TransactionController::class, 'store'])->name('apps.transactions.store');
         //route transaction print
         Route::get('/transactions/print', [\App\Http\Controllers\Apps\TransactionController::class, 'print'])->name('apps.transactions.print');
+
+        // route sales index
+        Route::get('/sales', [\App\Http\Controllers\Apps\SalesController::class, 'index'])->middleware('permission:sales.index')->name('apps.sales.index');
+        // route sales filter
+        Route::get('/sales/filter', [\App\Http\Controllers\Apps\SalesController::class, 'filter'])->name('apps.sales.filter');
+        // route sales export
+        Route::get('/sales/export', [\App\Http\Controllers\Apps\SalesController::class, 'export'])->name('apps.sales.export');
+        // route sales pdf
+        Route::get('/sales/pdf', [\App\Http\Controllers\Apps\SalesController::class, 'pdf'])->name('apps.sales.pdf');
     });
 });

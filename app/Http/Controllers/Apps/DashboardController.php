@@ -58,7 +58,7 @@ class DashboardController extends Controller
 
         // chart best selling product
         $chart_best_product = DB::table('transaction_details')
-            ->addSelect(DB::raw('products.title as title'))
+            ->addSelect(DB::raw('products.title as title, SUM(transaction_details.qty) as total'))
             ->join('products', 'products.id', '=', 'transaction_details.product_id')
             ->groupBy('transaction_details.product_id')
             ->orderBy('price', 'DESC')
