@@ -20,7 +20,7 @@ class Profit extends Model
 
     public function transaction(): BelongsTo
     {
-        return $this->belongsTo(Profit::class);
+        return $this->belongsTo(Transaction::class);
     }
 
     protected function createdAt(): Attribute

@@ -60,6 +60,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'sales.index', 'guard_name' => 'web']);
 
         // permission profites
-        Permission::create(['name' => 'profites.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'profits.index', 'guard_name' => 'web']);
     }
 }

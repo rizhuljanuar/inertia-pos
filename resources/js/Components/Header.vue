@@ -63,7 +63,7 @@
             href="/logout"
             method="POST"
             as="button"
-            class="dropdownitem"
+            class="dropdown-item"
             role="button"
           >
             <svg
