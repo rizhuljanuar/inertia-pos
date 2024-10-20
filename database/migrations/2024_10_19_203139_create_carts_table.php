@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('cashier_id')->references('id')->on('users');
 
             // relationship products
-            $table->foreign('products_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
