@@ -17,6 +17,9 @@ importers:
       chart.js:
         specifier: ^4.4.5
         version: 4.4.5
+      jsbarcode:
+        specifier: 3.11.5
+        version: 3.11.5
       sweetalert2:
         specifier: ^11.14.3
         version: 11.14.3
@@ -677,6 +680,10 @@ packages:
 
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
+    hasBin: true
+
+  jsbarcode@3.11.5:
+    resolution: {integrity: sha512-zv3KsH51zD00I/LrFzFSM6dst7rDn0vIMzaiZFL7qusTjPZiPtxg3zxetp0RR7obmjTw4f6NyGgbdkBCgZUIrA==}
     hasBin: true
 
   laravel-vite-plugin@1.0.5:
@@ -1639,6 +1646,8 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.6: {}
+
+  jsbarcode@3.11.5: {}
 
   laravel-vite-plugin@1.0.5(vite@5.4.9):
     dependencies:
